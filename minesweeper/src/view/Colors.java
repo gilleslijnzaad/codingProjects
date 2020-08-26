@@ -3,10 +3,11 @@ package view;
 import java.awt.*;
 
 public class Colors {
-    private static final Color GREEN = new Color(30, 90, 30);
-    private static final Color PURPLE = new Color(90, 0, 50);
-    private static final Color BROWN = new Color(100, 50, 30);
-    private static final Color AQUA = new Color(10, 140, 130);
+    public static final Color LIGHT_GRAY = new Color(170, 170, 170);
+    public static final Color GREEN = new Color(30, 90, 30);
+    public static final Color PURPLE = new Color(90, 0, 50);
+    public static final Color BROWN = new Color(100, 50, 30);
+    public static final Color AQUA = new Color(10, 140, 130);
 
     public static Color getColor(int surroundingMines) {
         return switch (surroundingMines) {

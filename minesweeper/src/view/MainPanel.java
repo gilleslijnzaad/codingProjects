@@ -15,6 +15,7 @@ public class MainPanel extends JPanel {
     private ArrayList<ArrayList<Field>> matrix;
 
     private static final int FIELD_SIZE = 30;
+    private static final int THICK_STROKE = 3;
     private Font FONT;
 
     public MainPanel(Game game) {
@@ -24,6 +25,8 @@ public class MainPanel extends JPanel {
         setBackground(Color.GRAY);
         setVisible(true);
     }
+
+
 
     public void initFont() {
         try {
@@ -44,16 +47,18 @@ public class MainPanel extends JPanel {
         int startY = y + fm.getHeight();
         if (!field.isCovered()) {
             if (!field.isMine()) {
-                g.setColor(Color.LIGHT_GRAY);
+                g.setColor(Colors.LIGHT_GRAY);
                 g.fillRect(x, y, FIELD_SIZE, FIELD_SIZE);
                 int number = field.getSurroundingMines();
                 g.setColor(Colors.getColor(number));
                 int width = fm.charWidth((char) ('0' + number));
-                startX = x + (FIELD_SIZE - width) / 2;
+                startX = x + (FIELD_SIZE - width + THICK_STROKE) / 2;
                 g.drawString(String.valueOf(number), startX, startY);
+                field.setStartXY(new Point(startX, startY));
             }
         }
         g.setColor(Color.BLACK);
+        g.setStroke(new BasicStroke(THICK_STROKE));
         g.drawRect(x, y, FIELD_SIZE, FIELD_SIZE);
     }
 

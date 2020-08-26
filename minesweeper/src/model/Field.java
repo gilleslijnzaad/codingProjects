@@ -1,10 +1,13 @@
 package model;
 
+import java.awt.*;
+
 public class Field {
     private boolean mine;
     private boolean flagged;
     private boolean covered;
     private int surroundingMines;
+    private Point startXY;
 
     public Field() {
         flagged = false;
@@ -45,4 +48,12 @@ public class Field {
     }
 
     public void setSurroundingMines(int number) { surroundingMines = number ;}
+
+    public void setStartXY(Point p) {
+        startXY = p;
+    }
+
+    public Point getStartXY() {
+        return startXY;
+    }
 }

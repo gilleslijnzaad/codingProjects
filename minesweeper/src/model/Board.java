@@ -3,32 +3,40 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class that represents the board, i.e. a matrix of fields
+ */
 public class Board {
     private final int rows;
     private final int columns;
-    private final int mines;
-    private ArrayList<ArrayList<Field>> matrix = new ArrayList<>();
+    private final ArrayList<ArrayList<Field>> matrix = new ArrayList<>();
     Random random = new Random();
 
+    /**
+     * Constructor
+     * @param rows    number of rows in the matrix
+     * @param columns number of columns in the matrix
+     * @param mines   number of mines on the board
+     */
     public Board(int rows, int columns, int mines) {
         this.rows = rows;
         this.columns = columns;
-        this.mines = mines;
-        initBoard();
+        initMatrix();
         initMines(mines);
         initSurroundingMines();
-        for (int r = 0; r < 6; r++) {
-            for (int c = 0; c < 6; c++) {
-                matrix.get(r).get(c).uncover();
-            }
-        }
     }
 
+    /**
+     * @return the matrix, an ArrayList of {@code Field} ArrayLists
+     */
     public ArrayList<ArrayList<Field>> getMatrix() {
         return matrix;
     }
 
-    public void initBoard() {
+    /**
+     * Creates the ArrayList-matrix structure
+     */
+    public void initMatrix() {
         for (int r = 0; r < rows; r++) {
             matrix.add(new ArrayList<>());
             for (int c = 0; c < columns; c++) {
@@ -37,6 +45,10 @@ public class Board {
         }
     }
 
+    /**
+     * Recursive method that divides the mines randomly over the board
+     * @param minesToGo number of mines left to put on the board
+     */
     public void initMines(int minesToGo) {
         if (minesToGo == 0) {
             return;
@@ -50,6 +62,9 @@ public class Board {
         }
     }
 
+    /**
+     * Assigns the right {@code surroundingMines} value for each {@code Field} in the board
+     */
     public void initSurroundingMines() {
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
@@ -70,16 +85,5 @@ public class Board {
             }
         }
     }
-
-    public void printBoard() {
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
-                Field currentField = matrix.get(r).get(c);
-                System.out.print(currentField.isMine() ? "X" : currentField.getSurroundingMines());
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-    }
-
 }
+

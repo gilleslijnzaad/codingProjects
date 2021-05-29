@@ -7,8 +7,8 @@ import java.util.Random;
  * Class that represents the board, i.e. a matrix of fields
  */
 public class Board {
-    private final int rows;
-    private final int columns;
+    private final int N_ROWS;
+    private final int N_COLUMNS;
     private final ArrayList<ArrayList<Field>> matrix = new ArrayList<>();
     Random random = new Random();
 
@@ -19,46 +19,39 @@ public class Board {
      * @param mines   number of mines on the board
      */
     public Board(int rows, int columns, int mines) {
-        this.rows = rows;
-        this.columns = columns;
+        this.N_ROWS = rows;
+        N_COLUMNS = columns;
         initMatrix();
         initMines(mines);
         initSurroundingMines();
     }
 
     /**
-     * @return the matrix, an ArrayList of {@code Field} ArrayLists
-     */
-    public ArrayList<ArrayList<Field>> getMatrix() {
-        return matrix;
-    }
-
-    /**
      * Creates the ArrayList-matrix structure
      */
     public void initMatrix() {
-        for (int r = 0; r < rows; r++) {
+        for (int r = 0; r < N_ROWS; r++) {
             matrix.add(new ArrayList<>());
-            for (int c = 0; c < columns; c++) {
+            for (int c = 0; c < N_COLUMNS; c++) {
                 matrix.get(r).add(new Field());
             }
         }
     }
 
     /**
-     * Recursive method that divides the mines randomly over the board
-     * @param minesToGo number of mines left to put on the board
+     * Randomly divides the mines over the board
+     * @param mines     number of mines 
      */
-    public void initMines(int minesToGo) {
-        if (minesToGo == 0) {
-            return;
-        }
-        Field randomField = matrix.get(random.nextInt(rows)).get(random.nextInt(columns));
-        if (randomField.isMine()) {
-            initMines(minesToGo);
-        } else {
-            randomField.setMine(true);
-            initMines(minesToGo - 1);
+    public void initMines(int mines) {
+        int i = 0;
+        while (i < mines) {
+            int randomRow = random.nextInt(N_ROWS);
+            int randomColumn = random.nextInt(N_COLUMNS);
+            Field randomField = matrix.get(randomRow).get(randomColumn);
+            if (randomField.isMine()) {
+                randomField.placeMine();
+                i++;
+            }
         }
     }
 
@@ -66,24 +59,37 @@ public class Board {
      * Assigns the right {@code surroundingMines} value for each {@code Field} in the board
      */
     public void initSurroundingMines() {
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < columns; c++) {
+        for (int r = 0; r < N_ROWS; r++) {
+            for (int c = 0; c < N_COLUMNS; c++) {
                 Field currentField = matrix.get(r).get(c);
                 if (!currentField.isMine()) {
-                    for (int i = r - 1; i < r + 2; i++) {
-                        for (int j = c - 1; j < c + 2; j++) {
-                            if (i >= 0 && i < rows && j >= 0 && j < columns) {
-                                if (matrix.get(i).get(j).isMine()) {
-                                    currentField.setSurroundingMines();
-                                }
-                            }
-                        }
-                    }
+                    int mines = checkSurroundingFields(r, c);
+                    currentField.setSurroundingMines(mines);
                 } else {
                     currentField.setSurroundingMines(-1);
                 }
             }
         }
     }
-}
 
+    private int checkSurroundingFields(int row, int column) {
+        int mines = 0;
+        for (int i = row - 1; i < row + 2; i++) {
+            for (int j = column - 1; j < column + 2; j++) {
+                if (i >= 0 && i < N_ROWS && j >= 0 && j < N_COLUMNS) {
+                    if (matrix.get(i).get(j).isMine()) {
+                        mines++;
+                    }
+                }
+            }
+        }
+        return mines;
+    }
+
+    /**
+     * @return the matrix which is an ArrayList of {@code Field} ArrayLists
+     */
+    public ArrayList<ArrayList<Field>> getMatrix() {
+        return matrix;
+    }
+}

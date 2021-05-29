@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 // will later implement Observer
 public class MainPanel extends JPanel {
+    private static final long serialVersionUID = 1L;
     private Game game;
     private ArrayList<ArrayList<Field>> matrix;
 
@@ -25,8 +26,6 @@ public class MainPanel extends JPanel {
         setBackground(Color.GRAY);
         setVisible(true);
     }
-
-
 
     public void initFont() {
         try {
@@ -66,8 +65,8 @@ public class MainPanel extends JPanel {
         g.setFont(FONT);
         int x = 50;
         int y = 50;
-        int rows = game.getROWS();
-        int columns = game.getCOLUMNS();
+        int rows = game.getN_ROWS();
+        int columns = game.getN_COLUMNS();
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 paintField(g, r, c, x, y);

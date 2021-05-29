@@ -2,6 +2,9 @@ package model;
 
 import java.awt.*;
 
+/**
+ * Class that represents a single square on the board
+ */
 public class Field {
     private boolean mine;
     private boolean flagged;
@@ -9,20 +12,33 @@ public class Field {
     private int surroundingMines;
     private Point startXY;
 
+    /**
+     * Constructor
+     */
     public Field() {
         flagged = false;
         covered = false;
         surroundingMines = 0;
     }
 
+    /**
+     * @return whether the {@code Field} is a mine or not
+     */
     public boolean isMine() {
         return mine;
     }
 
-    public void setMine(boolean mine) {
-        this.mine = mine;
+    /**
+     * Makes the {@code Field} a mine by setting the field mine true
+     */
+    public void placeMine() {
+        mine = true;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isFlagged() {
         return flagged;
     }
@@ -43,11 +59,9 @@ public class Field {
         return surroundingMines;
     }
 
-    public void setSurroundingMines() {
-        surroundingMines++;
+    public void setSurroundingMines(int number) { 
+        surroundingMines = number ;
     }
-
-    public void setSurroundingMines(int number) { surroundingMines = number ;}
 
     public void setStartXY(Point p) {
         startXY = p;
